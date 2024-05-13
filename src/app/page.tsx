@@ -13,7 +13,7 @@ import { metersToKilometers } from "@/utils/metersToKilometers";
 import { convertWindSpeed } from "@/utils/convertWindSpeed";
 import ForecastWeatherDetail from "@/components/ForecastWeatherDetails";
 import { useAtom } from "jotai";
-import { placeAtom } from "./atom";
+import { loadingCityAtom, placeAtom } from "./atom";
 import { useEffect } from "react";
 
 //https://api.openweathermap.org/data/2.5/forecast?q=maputo&appid=3167e2b88a17c5f62c87d3abb7c7b8f3&cnt=56
@@ -73,6 +73,7 @@ interface WeatherData {
 
 export default function Home() {
   const [place, setPlace] = useAtom(placeAtom)
+  const [_, setLoadingCity] = useAtom(loadingCityAtom)
   const { isLoading, error, data, refetch } = useQuery<WeatherData>("repoData", async () => {
     const { data } = await axios.get(`https://api.openweathermap.org/data/2.5/forecast?q=${place}&appid=3167e2b88a17c5f62c87d3abb7c7b8f3&cnt=56`);
     return data;
